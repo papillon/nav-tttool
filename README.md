@@ -1,5 +1,5 @@
 # nav-tttool
-Dynamics NAV Tooltip import &amp; export tool
+Singhammer Dynamics NAV Tooltip import &amp; export tool
 
 ## General
 This small utility reads Dynamics NAV objects and exports the contained tooltips into a tab-separated (tsv) file. Tooltips can be imported back from the tsv file into the same text file(s) where they have been initially extracted from. Optionally, it can generate entries for Controls and Actions that do not yet have a tooltip set.
@@ -48,3 +48,12 @@ Filename | Object Type | Object Number | Control Type (number) | Control Type (t
 pages.txt|21|4|29|Control|2|DEU|Gibt einen Code zur Identifizierung...|ENU|Specifies a code to identify...|...
 pages.txt|21|4|29|Control|4|DEU|Gibt eine Formel zur Berechnung...|ENU|Specifies a formula that...|...
 pages.txt|21|4|29|Control|6|DEU|Zeigt die Datumsformel an, ...|ENU|Specifies the date formula if...|...
+
+## Notes on compiling from source code
+
+* Should compile with Visual Studio 2015 or similar
+* Several Dynamics NAV DLLs must be copied from the "RoleTailored Client" folder into the folder `lib/2017`
+  * Microsoft.Dynamics.Nav.Model.dll
+  * Microsoft.Dynamics.Nav.Model.Parser.dll
+  * Microsoft.Dynamics.Nav.Model.Tools.dll
+  * Microsoft.Dynamics.Nav.Model.TypeSystem.dll
