@@ -1,10 +1,10 @@
 # nav-tttool
-Singhammer Dynamics NAV Tooltip import &amp; export tool
+[Singhammer IT Consulting](https://www.singhammer.com/) Dynamics NAV Tooltip Import &amp; Export tool
 
 ## General
-This small utility reads Dynamics NAV objects and exports the contained tooltips into a tab-separated (tsv) file. Tooltips can be imported back from the tsv file into the same text file(s) where they have been initially extracted from. Optionally, it can generate entries for Controls and Actions that do not yet have a tooltip set.
+This small utility reads [Microsoft Dynamics NAV](https://www.microsoft.com/en-us/dynamics365/nav-overview) objects and exports the contained tooltips into a tab-separated (tsv) file. Tooltips can be imported back from the tsv file into the same text file(s) where they have been initially extracted from. Optionally, it can generate entries for Controls and Actions that do not yet have a tooltip set.
 
-The tsv file can be processed in tools like LibreOffice calc or Google Tables (sorry, MS Excel ain't no good here) and be sent to external translators or sorted and modified in every way.
+The tsv file can be processed in tools like [LibreOffice Calc](https://www.libreoffice.org/discover/calc/) or [Google Sheets](https://docs.google.com/spreadsheets) (sorry, MS Excel ain't no good here) and be sent to external translators or sorted and modified in every way.
 
 ## Usage
 The tool can either run in export or import mode. Exporting means reading one or more NAV objects in text format into a tsv file, import the opposite.
@@ -19,7 +19,7 @@ The tool can either run in export or import mode. Exporting means reading one or
 ### Import
 `Tooltip.exe directory -import filename.tsv`
 
-* Parameter 1 (* directory): Specifies a path where the text files to read the tooltips into can be found
+* Parameter 1 (directory): Specifies a path where the text files to read the tooltips into can be found
 * Parameter 2 (-import filename.tsv): Specifies import mode and what file to read the tooltips from
 
 *Note: Each line in the tsv file contains a reference to the file the tooltip was originally read from. During import, the tool will try to read the tooltip back into the same file. So you have to keep the file structure intact between exporting and importing.*
@@ -57,3 +57,7 @@ pages.txt|21|4|29|Control|6|DEU|Zeigt die Datumsformel an, ...|ENU|Specifies the
   * Microsoft.Dynamics.Nav.Model.Parser.dll
   * Microsoft.Dynamics.Nav.Model.Tools.dll
   * Microsoft.Dynamics.Nav.Model.TypeSystem.dll
+
+## Binary release
+
+If you do not want to compile the source code but run the tool anyway, you are free to download the releases provided in this repository. Please do note that I am not distributing the DLLs that this tool depends on. You can copy them from your Dynamics NAV installation - see the included Readme.txt for details.
