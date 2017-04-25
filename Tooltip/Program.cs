@@ -370,34 +370,38 @@ namespace Singhammer.SITE
                 {
                     string[] col = line.Split(delimiter);
 
-                    var obj = new NAVObject()
+                    try
                     {
-                        Type = (ElementType)int.Parse(col[1]),
-                        Number = int.Parse(col[2]),
-                        FileName = col[0],
-                    };
+                        var obj = new NAVObject()
+                        {
+                            Type = (ElementType)int.Parse(col[1]),
+                            Number = int.Parse(col[2]),
+                            FileName = col[0],
+                        };
 
-                    var tooltip = new Tooltip()
-                    {
-                        ElementType = (ElementType)int.Parse(col[3]),
-                        Id = int.Parse(col[5])
-                    };
+                        var tooltip = new Tooltip()
+                        {
+                            ElementType = (ElementType)int.Parse(col[3]),
+                            Id = int.Parse(col[5])
+                        };
 
-                    for (int i = 6; i < col.Length; i += 2)
-                    {
-                        if (col[i] != "")
-                            tooltip.addText(col[i], col[i + 1]);
-                    }
+                        for (int i = 6; i < col.Length; i += 2)
+                        {
+                            if (col[i] != "")
+                                tooltip.addText(col[i], col[i + 1]);
+                        }
 
-                    if (!objects.ContainsKey(obj.GetHashCode()))
-                    {
-                        objects.Add(obj.GetHashCode(), obj);
+                        if (!objects.ContainsKey(obj.GetHashCode()))
+                        {
+                            objects.Add(obj.GetHashCode(), obj);
+                        }
+                        else
+                        {
+                            obj = objects[obj.GetHashCode()];
+                        }
+                        obj.Tooltips.Add(tooltip);
                     }
-                    else
-                    {
-                        obj = objects[obj.GetHashCode()];
-                    }
-                    obj.Tooltips.Add(tooltip);
+                    catch (FormatException) { }
                 }
             }
             catch (System.IO.IOException e)
