@@ -1,5 +1,5 @@
 # nav-tttool
-[Singhammer IT Consulting](https://www.singhammer.com/) Dynamics NAV Tooltip Import &amp; Export tool
+A tool we use at [Singhammer IT Consulting](https://www.singhammer.com/) to export and import Tooltips from NAV Objects. It's main purpose is to help with translation of tooltips to additional languages. 
 
 ## General
 This small utility reads [Microsoft Dynamics NAV](https://www.microsoft.com/en-us/dynamics365/nav-overview) objects and exports the contained tooltips into a tab-separated (tsv) file. Tooltips can be imported back from the tsv file into the same text file(s) where they have been initially extracted from. Optionally, it can generate entries for Controls and Actions that do not yet have a tooltip set.
