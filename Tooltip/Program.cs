@@ -432,9 +432,12 @@ namespace Singhammer.SITE
                             select element;
                         try
                         {
-                            string value = tooltip.GetTooltipMLProperty();
-                            if (value != "")
-                                elements.First().SetStringProperty(PropertyType.ToolTipML, tooltip.GetTooltipMLProperty());
+                            if (elements.Count() != 0)
+                            {
+                                string value = tooltip.GetTooltipMLProperty();
+                                if (value != "")
+                                    elements.First().SetStringProperty(PropertyType.ToolTipML, tooltip.GetTooltipMLProperty());
+                            }
                         }
                         catch (ArgumentException e)
                         {
