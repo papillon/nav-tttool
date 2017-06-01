@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Dynamics.Nav.MetaModel;
 using Microsoft.Dynamics.Nav.MetaMetaModel;
 using Microsoft.Dynamics.Nav.Model.IO.Txt;
+using System.Security.Cryptography;
 
 namespace Singhammer.SITE
 {
@@ -217,6 +218,16 @@ namespace Singhammer.SITE
             }
         }
 
+        static string GetMD5(string value1, string value2)
+        {
+            MD5 md5 = MD5.Create();
+            StringBuilder sb = new StringBuilder();
+            byte[] hash = md5.ComputeHash(Encoding.Unicode.GetBytes(value1 + value2));
+            for (int i = 0; i < hash.Length; i++)
+                sb.Append(hash[i].ToString("x2"));
+            return sb.ToString();
+        }
+
         /// <summary>  
         ///  Loop over several files and write all tooltips to a tab-separated file.
         /// </summary> 
@@ -228,6 +239,7 @@ namespace Singhammer.SITE
         {
             int tooltipCount = 0;
             SortedDictionary<int, NAVObject> objects = new SortedDictionary<int, NAVObject>();
+            HashSet<string> duplicates = new HashSet<string>();
 
             string[] files = Directory.GetFiles(sourcePath, sourcePattern, SearchOption.AllDirectories);
             foreach (string file in files)
@@ -269,6 +281,18 @@ namespace Singhammer.SITE
                         sb.Append(language.Key);
                         sb.Append(delimiter);
                         sb.Append(language.Value);
+                        sb.Append(delimiter);
+                        //duplicate?
+                        string hash = GetMD5(language.Key, language.Value);
+                        if (duplicates.Contains(hash))
+                        {
+                            sb.Append("1");
+                        }
+                        else
+                        {
+                            sb.Append("0");
+                            duplicates.Add(hash);
+                        }
                     }
                     sb.Append(System.Environment.NewLine);
                     tooltipCount++;
@@ -314,7 +338,7 @@ namespace Singhammer.SITE
                             tooltips.Add(generatedTooltip);
                     }
                 }
-                catch (Exception) {}
+                catch (Exception) { }
             }
             return tooltips;
         }
@@ -329,7 +353,7 @@ namespace Singhammer.SITE
         {
             Tooltip tooltip = null;
             string value;
-            
+
             if (element.TryGetStringProperty(PropertyType.CaptionML, out value) && value != null)
             {
                 tooltip = new Tooltip(element.ElementTypeInfo.ElementType, element.Id, value);
@@ -385,7 +409,7 @@ namespace Singhammer.SITE
                             Id = int.Parse(col[5])
                         };
 
-                        for (int i = 6; i < col.Length; i += 2)
+                        for (int i = 6; i < col.Length; i += 3)
                         {
                             if (col[i] != "")
                                 tooltip.addText(col[i], col[i + 1]);
@@ -420,6 +444,7 @@ namespace Singhammer.SITE
                         SaveNavObjects(lastFileName, objectsInFile);
                     objectsInFile = ReadNavObjects(objectFilename);
                     lastFileName = objectFilename;
+                    Console.WriteLine(@"Processing {0}", objectFilename);
                 }
                 var objInFile = objectsInFile.Find(x => x.Id.ObjectType == obj.Type && x.Id.ObjectNumber == obj.Number);
                 if (objInFile != null)
