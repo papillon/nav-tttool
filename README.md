@@ -4,7 +4,7 @@ A tool we use at [Singhammer IT Consulting](https://www.singhammer.com/) to expo
 ## General
 This small utility reads [Microsoft Dynamics NAV](https://www.microsoft.com/en-us/dynamics365/nav-overview) objects and exports the contained tooltips into a tab-separated (tsv) file. Tooltips can be imported back from the tsv file into the same text file(s) where they have been initially extracted from. Optionally, it can generate entries for Controls and Actions that do not yet have a tooltip set.
 
-The tsv file can be processed in tools like [LibreOffice Calc](https://www.libreoffice.org/discover/calc/) or [Google Sheets](https://docs.google.com/spreadsheets) (sorry, MS Excel ain't no good here) and be sent to external translators or sorted and modified in every way.
+The tsv file can be processed in tools like [LibreOffice Calc](https://www.libreoffice.org/discover/calc/) or [Google Sheets](https://docs.google.com/spreadsheets) and be sent to external translators or sorted and modified in every way. I had troubles exporting from [Microsoft Excel](https://products.office.com/excel) back to the correct tsv format again (i.e. no column headers, no quotes around columns), but maybe that is just me.
 
 ## Usage
 The tool can either run in export or import mode. Exporting means reading one or more NAV objects in text format into a tsv file, import the opposite.
@@ -41,13 +41,17 @@ Since it can be hard to tell which actions and fields are missing tooltips, the 
 1. Modify toolstips.csv and import the file back: 
 `Tooltip.exe "c:\temp" -import "c:\temp\tooltips.tsv"`
 
+## File format
+
 The tsv will look like this (example extracted from Page 4, the headers are included here just for documentation purposes):
 
-Filename | Object Type | Object Number | Control Type (number) | Control Type (text) | Control id | Language 1 Code | Language 1 Tooltip | Language 2 Code | Language 2 Tooltip | ...
------- | ------- |------ | ------- |------ | ------- |------ | ------- |------- |------- |------- |
-pages.txt|21|4|29|Control|2|DEU|Gibt einen Code zur Identifizierung...|ENU|Specifies a code to identify...|...
-pages.txt|21|4|29|Control|4|DEU|Gibt eine Formel zur Berechnung...|ENU|Specifies a formula that...|...
-pages.txt|21|4|29|Control|6|DEU|Zeigt die Datumsformel an, ...|ENU|Specifies the date formula if...|...
+Filename | Object Type | Object Number | Control Type (number) | Control Type (text) | Control id | Language 1 Code | Language 1 Tooltip | Duplicate | Language 2 Code | Language 2 Tooltip | Duplicate | ...
+------ | ------- |------ | ------- |------ | ------- | ------ | ------- | ------- | ------- | ------- | ------- | ------- |
+pages.txt|21|4|29|Control|2|DEU|Gibt einen Code zur Identifizierung...|0|ENU|Specifies a code to identify...|0|...
+pages.txt|21|4|29|Control|4|DEU|Gibt eine Formel zur Berechnung...|0|ENU|Specifies a formula that...|0|...
+pages.txt|21|4|29|Control|6|DEU|Zeigt die Datumsformel an, ...|0|ENU|Specifies the date formula if...|0|...
+
+Note: The *duplicate* column helps finding tooltips that exist multiple times. The first occurence of a language code + text combination is marked by a 0. Every repetition of that combination gets a 1. So you can avoid translating the same text over and over again by paying attention to this column.
 
 ## Notes on compiling from source code
 
